@@ -96,13 +96,12 @@ This project is a Python-based multi-agent simulation that generates a detailed 
 ## Project Structure
 
 ```bash
-ai-research-report-generator/
+Research-Agents/
 ├── app.py               # Main script with agent orchestration and report generation
 ├── research_topic.txt   # Input file specifying the research topic
 ├── .env                 # Environment variables (API key)
 ├── reports/             # Output directory for generated reports
 ├── README.md            # Project documentation
-└── requirements.txt     # List of dependencies (optional)
 ```
 
 ---
