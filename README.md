@@ -50,8 +50,8 @@ This project is a Python-based multi-agent simulation that generates a detailed 
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/your-username/ai-research-report-generator.git
-   cd ai-research-report-generator
+   https://github.com/kartikbhardwaj9/Research-Agents
+   cd Research-Agents
    ```
 
 2. **Create and Activate a Virtual Environment:**
