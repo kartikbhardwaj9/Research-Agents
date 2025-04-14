@@ -1,10 +1,14 @@
+Absolutely! Here's the **perfectly formatted** `README.md` just like you asked:
+
+---
+
 # AI Research Report Generator
 
-This repository contains a Python-based multi-agent research report generator. The system uses OpenAI's GPT models (via the new ChatCompletion API) to simulate a group discussion among agents (Supervisor, PhD Students, Verifier, Writer, Validator, and a User Proxy) that collectively produce a comprehensive research report on a topic specified by the user through an input file.
+This project is a Python-based multi-agent simulation that generates a detailed research report on a topic you provide. Agents collaborate to gather information, verify facts, draft the report, and export it to DOCX and PDF formats automatically.
+
+---
 
 ## Table of Contents
-
-- [Overview](#overview)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -14,182 +18,195 @@ This repository contains a Python-based multi-agent research report generator. T
 - [How It Works](#how-it-works)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
+- [Final Notes](#final-notes)
 
-## Overview
-
-This project simulates a collaborative research process in which multiple agents interact to gather, verify, and draft a research report. The final report is automatically saved in both DOCX and PDF formats in the `reports` folder. The topic for the research report is dynamically read from an input file named `research_topic.txt`.
+---
 
 ## Features
 
-- **Multi-Agent Simulation:**  
-  Multiple agents (Supervisor, two PhD Students, Verifier, Writer, Validator) work together to produce a research report.
-- **Dynamic Input Topic:**  
-  The research topic is read from a file (`research_topic.txt`), ensuring the report is based on user-specified topics.
-- **OpenAI Integration:**  
-  Uses OpenAI's GPT-3.5-turbo (or GPT-4 if available) to simulate research activities and generate report sections.
-- **Report File Generation:**  
-  The final research report is output as both DOCX and PDF files in the `reports` directory.
-- **Automated Finalization:**  
-  The system forces final report generation after a set number of conversation rounds to avoid infinite loops.
+- **Multi-Agent Collaboration:** Supervisor, PhD Students, Verifier, Writer, and Validator agents simulate a real research workflow.
+- **Dynamic Research Topics:** Specify any research topic via an input file (`research_topic.txt`).
+- **OpenAI GPT Integration:** Use GPT-3.5-turbo (or GPT-4) for content generation, summarization, and verification.
+- **Automatic Report Generation:** Creates structured reports in both DOCX and PDF formats inside a `reports/` folder.
+- **Error Handling and Forced Termination:** Ensures conversation does not loop indefinitely.
+
+---
 
 ## Prerequisites
 
-- **Python 3.8 or higher**  
-- A valid **OpenAI API key**
-- Required Python packages:
+- **Python 3.8+**
+- **OpenAI API Key**
+- Packages:
   - `openai`
   - `python-dotenv`
-  - `autogen` (or the version compatible with your usage)
   - `python-docx`
   - `reportlab`
-  - Other dependencies as needed (e.g., `re`, `datetime`)
+  - `autogen`
+
+---
 
 ## Installation
 
-1. **Clone this repository:**
+1. **Clone the Repository:**
 
    ```bash
    git clone https://github.com/your-username/ai-research-report-generator.git
    cd ai-research-report-generator
-Create and activate a virtual environment (optional but recommended):
+   ```
 
-bash
-Copy
-python -m venv venv
-source venv/bin/activate   # On Windows use: venv\Scripts\activate
-Install the required dependencies:
+2. **Create and Activate a Virtual Environment:**
 
-bash
-Copy
-pip install -r requirements.txt
-If you do not have a requirements.txt, you can install the packages manually:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate        # On Windows use: venv\Scripts\activate
+   ```
 
-bash
-Copy
-pip install openai python-dotenv python-docx reportlab autogen
-Set up environment variables:
+3. **Install Dependencies:**
 
-Create a .env file in the root directory with the following content:
+   If you have a `requirements.txt`:
 
-env
-Copy
-OPENAI_API_KEY=your_openai_api_key_here
-Prepare the research topic input file:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Create a file named research_topic.txt in the root directory and add your desired research topic. For example:
+   Or install manually:
 
-txt
-Copy
-Ai and its basics
-Project Structure
-bash
-Copy
-ai-research-report-generator/
-├── app.py                 # Main script containing the multi-agent simulation and final report generation
-├── research_topic.txt     # Input file with the research topic
-├── .env                   # Environment variables (contains OPENAI_API_KEY)
-├── reports/               # Generated report files (DOCX and PDF)
-├── README.md              # This file
-└── requirements.txt       # List of dependencies (optional)
-Configuration
-OpenAI API Key:
-Set in .env file as OPENAI_API_KEY.
+   ```bash
+   pip install openai python-dotenv python-docx reportlab autogen
+   ```
 
-Model Selection:
-In app.py, the variable OPENAI_MODEL_FOR_AUTOGEN can be set to either 'gpt-3.5-turbo' or 'gpt-4' (if you have access).
+4. **Set Up Environment Variables:**
 
-Conversation Rounds:
-The max_round for the group chat is set to 15 to avoid indefinite looping. You can adjust this value in the Group Chat Setup section.
+   Create a `.env` file in the root directory:
 
-Temperature:
-The system uses a low temperature (0.1) for deterministic responses. This value is set in the llm_config dictionary.
+   ```env
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
 
-Usage
-Ensure the prerequisites are met (Python version, dependencies installed, .env and research_topic.txt in place).
+5. **Prepare the Research Topic Input File:**
 
-Run the main script:
+   Create a file named `research_topic.txt` with the topic:
 
-bash
-Copy
-python app.py
-Output:
-
-The script will simulate the agents’ conversation (limited to a single round or the specified number of rounds).
-
-The final aggregated research findings will be used to generate the report.
-
-The final report is saved as a DOCX and PDF file in the reports folder.
-
-Check the console for the paths of the generated files.
-
-How It Works
-Initialization:
-The script loads the OpenAI API key from the environment and sets up a global configuration for the GPT model.
-
-Helper Functions:
-Functions such as search_academic_papers, verify_fact, write_section, and create_report_files use OpenAI's GPT model to simulate research activities and generate formatted report sections and files.
-
-Agent Definitions:
-Several agents are defined:
-
-Supervisor: Orchestrates the research process.
-
-PhD_Student_1 & PhD_Student_2: Simulate research activities by providing summaries based on the input topic.
-
-Verifier: Checks the accuracy of the research summaries.
-
-Writer: Drafts the final research report using the aggregated findings.
-
-Validator: Conducts the final review of the report.
-
-User Proxy: Initiates the process and executes file generation.
-
-Group Chat Simulation:
-The agents are added to a group chat managed by GroupChatManager. The conversation rounds are limited to prevent indefinite looping.
-
-Final Report Generation:
-After simulating the research process, the validated aggregated research findings are passed to the Writer. The final report is generated via write_section and then saved as both DOCX and PDF using create_report_files.
-
-Troubleshooting
-OpenAI Migration Error:
-If you see an error message about openai.ChatCompletion not being supported, either run the openai migrate command or pin your OpenAI package to an older version using:
-
-bash
-Copy
-pip install openai==0.28
-Refer to the OpenAI Python migration guide for more details.
-
-Missing Environment Variables:
-Ensure your .env file is present in the project root and includes a valid OPENAI_API_KEY.
-
-No Output Files:
-If no files appear in the reports folder, check the console output for error messages. Ensure the folder has proper write permissions and that the research topic file exists.
-
-Conversation Looping:
-The group chat is limited to a small number of rounds (max_round is set to 15). Adjust this value if needed, but note that the final report generation is forced after the conversation.
-
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-pgsql
-Copy
+   ```txt
+   Ai and its basics
+   ```
 
 ---
 
-### Final Notes
+## Project Structure
 
-- Modify the `README.md` as necessary to align with any changes made to the project.
-- Ensure that all necessary files (such as the `.env` and `research_topic.txt`) are created before running the project.
-- The README serves to explain the setup, configuration, usage, and troubleshooting steps in detail.
+```bash
+ai-research-report-generator/
+├── app.py               # Main script with agent orchestration and report generation
+├── research_topic.txt   # Input file specifying the research topic
+├── .env                 # Environment variables (API key)
+├── reports/             # Output directory for generated reports
+├── README.md            # Project documentation
+└── requirements.txt     # List of dependencies (optional)
+```
 
-Save this file as `README.md` in your repository root, and it will guide users on how to run the project and understand its functionality.
+---
 
+## Configuration
 
+- **OpenAI API Key:**  
+  Set your API key in the `.env` file.
 
+- **Model Selection:**  
+  You can change the model by setting the `OPENAI_MODEL_FOR_AUTOGEN` variable in `app.py` to `'gpt-3.5-turbo'` or `'gpt-4'`.
 
-Search
+- **Conversation Rounds:**  
+  The group chat is limited to `max_round = 15` to prevent infinite loops. You can adjust this in `app.py`.
 
-Deep research
+- **Temperature Setting:**  
+  The OpenAI API call uses a low temperature (`0.1`) for more deterministic and factual responses.
 
+---
 
-ChatGPT can make mistakes. Check important info.
+## Usage
+
+1. Ensure Python, all dependencies, `.env`, and `research_topic.txt` are properly set up.
+
+2. Run the main script:
+
+   ```bash
+   python app.py
+   ```
+
+3. **Output:**
+   - The script will simulate a multi-agent conversation.
+   - Final validated research findings will be compiled.
+   - The final research report will be saved in **DOCX** and **PDF** formats inside the `reports/` folder.
+
+4. **Check the Console:**
+   - The console will display the paths where the reports are saved.
+
+---
+
+## How It Works
+
+1. **Initialization:**
+   - Loads your OpenAI API key.
+   - Configures the GPT model and helper functions.
+
+2. **Helper Functions:**
+   - `search_academic_papers`: Simulates academic research.
+   - `verify_fact`: Fact-checks research claims.
+   - `write_section`: Structures and writes report sections.
+   - `create_report_files`: Exports the final document.
+
+3. **Agent Definitions:**
+   - **Supervisor:** Manages the workflow.
+   - **PhD Students:** Search and summarize papers.
+   - **Verifier:** Checks factual accuracy.
+   - **Writer:** Drafts the final report.
+   - **Validator:** Final review for completeness.
+   - **User Proxy:** Controls the overall process and triggers code functions.
+
+4. **Group Chat Simulation:**
+   - Agents collaborate through `GroupChatManager`.
+   - Conversation is limited to 15 rounds for efficiency.
+
+5. **Final Report Generation:**
+   - Aggregated findings are passed to the Writer.
+   - The report is generated and saved in both `.docx` and `.pdf` formats.
+
+---
+
+## Troubleshooting
+
+- **OpenAI Migration Error:**
+
+  If you get an error about `openai.ChatCompletion` not being supported:
+
+  ```bash
+  pip install openai==0.28
+  ```
+
+  Or run:
+
+  ```bash
+  openai migrate
+  ```
+
+- **Missing Environment Variables:**
+
+  Ensure `.env` exists and contains a valid `OPENAI_API_KEY`.
+
+- **No Output Files:**
+
+  Make sure the `reports/` folder exists and is writable.
+
+  Ensure the `research_topic.txt` file has valid content.
+
+- **Conversation Looping:**
+
+  If the simulation loops endlessly, adjust `max_round` or manually terminate after report generation.
+
+---
+
+## License
+
+This project is licensed under the MIT License.  
+See the [LICENSE](LICENSE) file for more information.
+
